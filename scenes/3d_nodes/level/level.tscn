@@ -1,17 +1,48 @@
-[gd_scene format=3 uid="uid://53gpta3lugg2"]
+[gd_scene load_steps=6 format=3 uid="uid://53gpta3lugg2"]
+
+[ext_resource type="PackedScene" uid="uid://66lp3klnhutn" path="res://scenes/character_bodies/player_body/player_body.tscn" id="1_4qlx6"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_de1mx"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_3xku7"]
+sky_material = SubResource("ProceduralSkyMaterial_de1mx")
+
+[sub_resource type="Environment" id="Environment_47i83"]
+background_mode = 2
+sky = SubResource("Sky_3xku7")
+tonemap_mode = 3
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_dhd3r"]
+auto_exposure_enabled = true
+auto_exposure_scale = 1.5
+auto_exposure_speed = 5.0
+dof_blur_amount = 1.0
+auto_exposure_min_sensitivity = 300.0
+auto_exposure_max_sensitivity = 64000.0
 
 [node name="Level" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_47i83")
+camera_attributes = SubResource("CameraAttributesPractical_dhd3r")
 
 [node name="StaticObjects" type="Node3D" parent="."]
 
 [node name="Floor" type="CSGBox3D" parent="StaticObjects"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0609589, 9.53674e-07, 0.014473)
-size = Vector3(44.6161, 0.116422, 47.0151)
+use_collision = true
+size = Vector3(105.716, 0.116422, 131.975)
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="StaticObjects"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.08283, 9.99534, 11.8597)
+use_collision = true
 size = Vector3(8.26299, 21.3649, 13.9979)
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="StaticObjects"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.0247, 9.99534, 1.19247)
+use_collision = true
 size = Vector3(8.26299, 21.3649, 13.9979)
+
+[node name="PlayerBody" parent="." instance=ExtResource("1_4qlx6")]

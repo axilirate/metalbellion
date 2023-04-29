@@ -5,11 +5,16 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xmee1"]
 
-[node name="PlayerBody" type="CharacterBody3D"]
+[node name="PlayerBody" type="CharacterBody3D" node_paths=PackedStringArray("camera_target", "camera")]
 script = ExtResource("1_cp4ag")
+camera_target = NodePath("CameraTarget")
+camera = NodePath("PlayerCamera")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_xmee1")
+
+[node name="CameraTarget" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [node name="PlayerCamera" parent="." instance=ExtResource("2_g18mv")]

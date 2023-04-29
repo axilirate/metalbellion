@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Metalbellion"
+run/main_scene="res://scenes/states/gameplay_state/gameplay_state.tscn"
 config/features=PackedStringArray("4.0", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -44,5 +45,4 @@ jump={
 
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
