@@ -1,3 +1,17 @@
-[gd_scene format=3 uid="uid://b00436fx87bj8"]
+[gd_scene format=3 uid="uid://53gpta3lugg2"]
 
 [node name="Level" type="Node3D"]
+
+[node name="StaticObjects" type="Node3D" parent="."]
+
+[node name="Floor" type="CSGBox3D" parent="StaticObjects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0609589, 9.53674e-07, 0.014473)
+size = Vector3(44.6161, 0.116422, 47.0151)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="StaticObjects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.08283, 9.99534, 11.8597)
+size = Vector3(8.26299, 21.3649, 13.9979)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="StaticObjects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19.0247, 9.99534, 1.19247)
+size = Vector3(8.26299, 21.3649, 13.9979)
