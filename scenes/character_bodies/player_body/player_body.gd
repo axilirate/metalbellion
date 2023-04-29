@@ -5,7 +5,7 @@ class_name PlayerBody extends CharacterBody3D
 @export var camera: Camera3D
 
 var speed: float = 10
-
+var mouse_sensitivity: float = 0.005
 
 
 
@@ -39,8 +39,11 @@ func _input(event: InputEvent) -> void:
 
 
 func process_camera(delta) -> void:
+	var current_rot = Quaternion(camera.global_transform.basis.get_rotation_quaternion())
+	var target_rot = Quaternion(camera_target.global_transform.basis.get_rotation_quaternion())
+	var smooth_rot = lerp(current_rot, target_rot, delta * 60)
 	camera.global_position = lerp(camera.global_position, camera_target.global_position, delta * 20)
-	camera.global_rotation = camera_target.global_rotation
+	camera.global_transform.basis = Basis(smooth_rot)
 
 
 
@@ -56,7 +59,7 @@ func process_velocity() -> void:
 
 func process_camera_target_look_rotation(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
-		camera_target.rotate_x(-event.relative.y * 0.01)
+		camera_target.rotate_x(-event.relative.y * mouse_sensitivity)
 		camera_target.rotation.x = clamp(camera_target.rotation.x, deg_to_rad(-89), deg_to_rad(89))
 
 
@@ -64,7 +67,7 @@ func process_camera_target_look_rotation(event: InputEvent) -> void:
 
 func process_look_rotation(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
-		rotate_y(-event.relative.x * 0.01)
+		rotate_y(-event.relative.x * mouse_sensitivity)
 
 
 
