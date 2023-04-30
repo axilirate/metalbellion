@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcspdrrfl4amd"]
+
+[ext_resource type="Script" path="res://scenes/areas/combat_area/combat_area.gd" id="1_1otbo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_22cds"]
+transparency = 1
+albedo_color = Color(0, 0, 0, 0.8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sjh88"]
+size = Vector3(25, 25, 25)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_f5y5x"]
+points = PackedVector3Array(12.5, 12.5, 12.5, 12.5, 12.5, -12.5, -12.5, 12.5, 12.5, 12.5, -12.5, 12.5, 12.5, -12.5, -12.5, -12.5, 12.5, -12.5, -12.5, -12.5, 12.5, -12.5, -12.5, -12.5)
+
+[node name="CombatArea" type="Node3D"]
+script = ExtResource("1_1otbo")
+
+[node name="StaticObjects" type="Node3D" parent="."]
+
+[node name="Floor" type="CSGBox3D" parent="StaticObjects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0609589, 9.53674e-07, 0.014473)
+use_collision = true
+size = Vector3(105.716, 0.116422, 131.975)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticObjects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.0806, 5.79452, 7.62528)
+material_override = SubResource("StandardMaterial3D_22cds")
+mesh = SubResource("BoxMesh_sjh88")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="StaticObjects/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticObjects/MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_f5y5x")

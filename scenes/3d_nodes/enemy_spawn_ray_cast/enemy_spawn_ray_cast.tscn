@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/3d_nodes/enemy_spawn_ray_cast/enemy_spawn_ray_cast.gd" id="1_03os2"]
+
+[node name="EnemySpawnRayCast" type="RayCast3D"]
+exclude_parent = false
+target_position = Vector3(0, -7, 0)
+script = ExtResource("1_03os2")

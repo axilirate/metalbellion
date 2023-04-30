@@ -1,10 +1,13 @@
-class_name PlayerBody extends CharacterBody3D
+class_name Player extends CharacterBody3D
 
 
 @export var camera_target: Marker3D
 @export var camera: Camera3D
 
+var attributes := Attributes.new()
+
 var speed: float = 10
+var jump_power: float = 10
 var mouse_sensitivity: float = 0.005
 
 
@@ -20,7 +23,7 @@ func _process(delta: float) -> void:
 
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	process_velocity()
 	move_and_slide()
 
