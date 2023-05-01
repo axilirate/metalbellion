@@ -1,14 +1,21 @@
 class_name Player extends CharacterBody3D
 
-
+@export var weapon_holder: Node3D
 @export var camera_target: Marker3D
 @export var camera: Camera3D
 
 var attributes := Attributes.new()
+var active_weapon: Weapon
 
 var speed: float = 10
 var jump_power: float = 10
 var mouse_sensitivity: float = 0.005
+
+
+
+
+
+
 
 
 
@@ -34,10 +41,6 @@ func _input(event: InputEvent) -> void:
 	process_camera_target_look_rotation(event)
 	process_look_rotation(event)
 	
-
-
-
-
 
 
 
@@ -74,6 +77,12 @@ func process_look_rotation(event: InputEvent) -> void:
 
 
 
+
+
+func equip_weapon(weapon: Weapon) -> void:
+	NodeUtils.clear_children(weapon_holder)
+	active_weapon = weapon
+	
 
 
 

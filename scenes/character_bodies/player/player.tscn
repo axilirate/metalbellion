@@ -1,17 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://bsih1lexsu27y"]
+[gd_scene load_steps=5 format=3 uid="uid://bsih1lexsu27y"]
 
 [ext_resource type="Script" path="res://scenes/character_bodies/player/player.gd" id="1_4ctie"]
 [ext_resource type="PackedScene" uid="uid://bimw2he54gad6" path="res://scenes/canvas_layers/player_canvas_layer/player_canvas_layer.tscn" id="2_f2jpa"]
 [ext_resource type="PackedScene" uid="uid://bag6m4kvgwkeo" path="res://scenes/cameras/player_camera/player_camera.tscn" id="3_1hmud"]
-[ext_resource type="PackedScene" uid="uid://k60bown04x0h" path="res://scenes/guns/test_gun/test_gun.tscn" id="4_ehndh"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xmee1"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lvkeh"]
-albedo_color = Color(0.168627, 0.168627, 0.168627, 1)
-
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera_target", "camera")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("weapon_holder", "camera_target", "camera")]
 script = ExtResource("1_4ctie")
+weapon_holder = NodePath("PlayerCamera/WeaponHolder")
 camera_target = NodePath("CameraTarget")
 camera = NodePath("PlayerCamera")
 
@@ -26,7 +23,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [node name="PlayerCamera" parent="." instance=ExtResource("3_1hmud")]
 
-[node name="TestGun" parent="PlayerCamera" instance=ExtResource("4_ehndh")]
+[node name="WeaponHolder" type="Node3D" parent="PlayerCamera"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.620432, -0.433184, -1.18676)
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_lvkeh")

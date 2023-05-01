@@ -6,26 +6,18 @@ enum Type {
 	}
 
 
-const TEST_ENEMY_SCENE_PATH: String = "res://scenes/enemies/test_enemy/test_enemy.tscn"
-
-
-var scenes: Array[PackedScene] = []
-var attributes: Array[Attributes] = []
-var shapes: Array[Resource] = []
 
 
 
+var instance: CharacterBody3D
+var shape: Resource
 
-func _init() -> void:
-	var test_enemy: TestEnemy = preload(TEST_ENEMY_SCENE_PATH).instantiate()
-	
-	scenes.resize(Type.size())
-	attributes.resize(Type.size())
-	shapes.resize(Type.size())
-	
-	
-	scenes[Type.TEST_ENEMY] = preload(TEST_ENEMY_SCENE_PATH)
-	
-	
-	attributes[Type.TEST_ENEMY] = test_enemy.attributes
-	shapes[Type.TEST_ENEMY] = test_enemy.collision_shape.shape
+
+
+func _init(type: Type) -> void:
+	match type:
+		Type.TEST_ENEMY:
+			const SCENE_PATH: String = "res://scenes/enemies/test_enemy/test_enemy.tscn"
+			var test_enemy: TestEnemy = preload(SCENE_PATH).instantiate()
+			instance = test_enemy
+			shape = test_enemy.collision_shape.shape
