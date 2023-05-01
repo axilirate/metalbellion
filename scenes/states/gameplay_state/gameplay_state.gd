@@ -28,10 +28,15 @@ func process_enemy_spawning() -> void:
 
 
 func process_player_shooting():
-	if not Input.is_action_pressed("shoot"):
+	if not Input.is_action_just_pressed("shoot"):
 		return
 	
-	player.camera.global_rotation
+	var bullet = Bullet.new(player.active_weapon.bullet_type)
+	bullet.instance.position = player.camera.global_position
+	bullet.instance.rotation = player.camera.global_rotation
+	bullet.properties.velocity = player.camera.global_rotation
+	bullet.properties.speed = 10
+	add_child(bullet.instance)
 	print("?")
 
 
