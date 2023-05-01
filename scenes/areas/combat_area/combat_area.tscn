@@ -32,3 +32,14 @@ skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticObjects/MeshInstance3D/StaticBody3D"]
 shape = SubResource("ConvexPolygonShape3D_f5y5x")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="StaticObjects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.8931, 5.79452, 4.08851)
+material_override = SubResource("StandardMaterial3D_22cds")
+mesh = SubResource("BoxMesh_sjh88")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="StaticObjects/MeshInstance3D2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticObjects/MeshInstance3D2/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_f5y5x")

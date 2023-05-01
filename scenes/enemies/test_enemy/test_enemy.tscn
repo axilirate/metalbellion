@@ -1,15 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://3odtgcixf6rj"]
+[gd_scene load_steps=5 format=3 uid="uid://4x3r7gkfoxxp"]
 
-[ext_resource type="PackedScene" uid="uid://lh6ytv3rh8o3" path="res://scenes/3d_nodes/health_bar/health_bar.tscn" id="1_0rcyd"]
-[ext_resource type="Script" path="res://scenes/enemies/flying_head/flying_head.gd" id="1_44eoq"]
+[ext_resource type="Script" path="res://scenes/enemies/test_enemy/test_enemy.gd" id="1_ilmfg"]
+[ext_resource type="PackedScene" uid="uid://lh6ytv3rh8o3" path="res://scenes/3d_nodes/health_bar/health_bar.tscn" id="2_1ak3l"]
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_mptco"]
 data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_xx705"]
 
-[node name="FlyingHead" type="CharacterBody3D" node_paths=PackedStringArray("collision_shape")]
-script = ExtResource("1_44eoq")
+[node name="TestEnemy" type="CharacterBody3D" node_paths=PackedStringArray("collision_shape")]
+script = ExtResource("1_ilmfg")
 collision_shape = NodePath("CollisionShape3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -20,5 +20,5 @@ shape = SubResource("ConcavePolygonShape3D_mptco")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 mesh = SubResource("BoxMesh_xx705")
 
-[node name="HealthBar" parent="." instance=ExtResource("1_0rcyd")]
+[node name="HealthBar" parent="." instance=ExtResource("2_1ak3l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)

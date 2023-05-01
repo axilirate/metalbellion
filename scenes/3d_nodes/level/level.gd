@@ -29,19 +29,19 @@ func process_enemy_spawning() -> void:
 
 
 func try_to_spawn_enemy() -> void:
-	var enemy := Enemy.new()
+	var enemy = Enemy.new()
 	var enemy_spawn_ray_cast: RayCast3D = preload("res://scenes/3d_nodes/enemy_spawn_ray_cast/enemy_spawn_ray_cast.tscn").instantiate()
 	
 	add_child(enemy_spawn_ray_cast)
 	enemy_spawn_ray_cast.position = player.position + Vector3(randi_range(-20, 20), player.position.y + 5, randi_range(-20, 20))
 	enemy_spawn_ray_cast.force_raycast_update()
 	
-	if is_spawn_valid(enemy_spawn_ray_cast, enemy.shapes[Enemy.Type.FLYING_HEAD]):
-		var flying_head = enemy.scenes[Enemy.Type.FLYING_HEAD].instantiate()
-		flying_head.position = enemy_spawn_ray_cast.get_collision_point()
-		enemy_holder.add_child(flying_head)
-		enemies.push_back(flying_head)
-		enemy_attribues.push_back(flying_head.attributes)
+	if is_spawn_valid(enemy_spawn_ray_cast, enemy.shapes[Enemy.Type.TEST_ENEMY]):
+		var test_enemy = enemy.scenes[Enemy.Type.TEST_ENEMY].instantiate()
+		test_enemy.position = enemy_spawn_ray_cast.get_collision_point()
+		enemy_holder.add_child(test_enemy)
+		enemies.push_back(test_enemy)
+		enemy_attribues.push_back(test_enemy.attributes)
 	
 	enemy_spawn_ray_cast.queue_free()
 

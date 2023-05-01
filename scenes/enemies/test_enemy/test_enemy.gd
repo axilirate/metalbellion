@@ -1,4 +1,4 @@
-class_name FlyingHead extends CharacterBody3D
+class_name TestEnemy extends CharacterBody3D
 
 
 

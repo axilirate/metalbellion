@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://k60bown04x0h"]
+
+[ext_resource type="Script" path="res://scenes/guns/test_gun/test_gun.gd" id="1_xulka"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_jfs07"]
+size = Vector3(0.25, 0.25, 2)
+
+[node name="TestGun" type="MeshInstance3D" node_paths=PackedStringArray("barrel_marker")]
+mesh = SubResource("BoxMesh_jfs07")
+script = ExtResource("1_xulka")
+barrel_marker = NodePath("BarrelMarker")
+
+[node name="BarrelMarker" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.829552)
