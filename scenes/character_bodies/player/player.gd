@@ -21,6 +21,7 @@ var mouse_sensitivity: float = 0.005
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	equip_weapon(Weapon.new(GlobalEnum.WeaponType.TEST_GUN))
 
 
 
@@ -82,7 +83,7 @@ func process_look_rotation(event: InputEvent) -> void:
 func equip_weapon(weapon: Weapon) -> void:
 	NodeUtils.clear_children(weapon_holder)
 	active_weapon = weapon
-	
+	weapon_holder.add_child(weapon.instance)
 
 
 

@@ -1,9 +1,50 @@
-[gd_scene load_steps=3 format=3 uid="uid://d01gbs4jlb5lt"]
+[gd_scene load_steps=8 format=3 uid="uid://d01gbs4jlb5lt"]
 
 [ext_resource type="Script" path="res://scenes/states/gameplay_state/gameplay_state.gd" id="1_6p0bk"]
-[ext_resource type="PackedScene" uid="uid://cslvces6txw1r" path="res://scenes/3d_nodes/level/level.tscn" id="1_m04cq"]
+[ext_resource type="PackedScene" uid="uid://bsih1lexsu27y" path="res://scenes/character_bodies/player/player.tscn" id="2_nrnrg"]
+[ext_resource type="PackedScene" uid="uid://bcspdrrfl4amd" path="res://scenes/areas/combat_area/combat_area.tscn" id="3_ueq32"]
 
-[node name="GameplayState" type="Node"]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ir41e"]
+sky_top_color = Color(0.54902, 0.54902, 0.54902, 1)
+sky_horizon_color = Color(0.670588, 0.670588, 0.670588, 1)
+ground_bottom_color = Color(0.0862745, 0.0862745, 0.0862745, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+sun_angle_max = 0.0
+sun_curve = 1e-05
+
+[sub_resource type="Sky" id="Sky_3xku7"]
+sky_material = SubResource("ProceduralSkyMaterial_ir41e")
+
+[sub_resource type="Environment" id="Environment_svrjv"]
+background_mode = 2
+sky = SubResource("Sky_3xku7")
+tonemap_mode = 3
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_rxjky"]
+auto_exposure_enabled = true
+auto_exposure_scale = 1.0
+auto_exposure_speed = 3.0
+dof_blur_amount = 1.0
+auto_exposure_min_sensitivity = 300.0
+auto_exposure_max_sensitivity = 64000.0
+
+[node name="GameplayState" type="Node3D" node_paths=PackedStringArray("player", "enemy_holder")]
 script = ExtResource("1_6p0bk")
+player = NodePath("Player")
+enemy_holder = NodePath("EnemyHolder")
 
-[node name="Level" parent="." instance=ExtResource("1_m04cq")]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_svrjv")
+camera_attributes = SubResource("CameraAttributesPractical_rxjky")
+
+[node name="Player" parent="." instance=ExtResource("2_nrnrg")]
+
+[node name="EnemyHolder" type="Node3D" parent="."]
+
+[node name="AreaHolder" type="Node3D" parent="."]
+
+[node name="CombatArea" parent="AreaHolder" instance=ExtResource("3_ueq32")]

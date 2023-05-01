@@ -1,9 +1,6 @@
 class_name Enemy extends RefCounted
 
 
-enum Type {
-	TEST_ENEMY
-	}
 
 
 
@@ -14,9 +11,9 @@ var shape: Resource
 
 
 
-func _init(type: Type) -> void:
+func _init(type: GlobalEnum.EnemyType) -> void:
 	match type:
-		Type.TEST_ENEMY:
+		GlobalEnum.EnemyType.TEST_ENEMY:
 			const SCENE_PATH: String = "res://scenes/enemies/test_enemy/test_enemy.tscn"
 			var test_enemy: TestEnemy = preload(SCENE_PATH).instantiate()
 			instance = test_enemy
