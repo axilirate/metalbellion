@@ -17,3 +17,9 @@ enum WeaponType {
 enum BulletType {
 	TEST_BULLET
 }
+
+
+enum ZoneType {
+	COMBAT,
+	HUB,
+}

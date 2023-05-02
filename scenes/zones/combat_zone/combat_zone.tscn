@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://bcspdrrfl4amd"]
+[gd_scene load_steps=5 format=3 uid="uid://dalnscvn6f3mh"]
 
-[ext_resource type="Script" path="res://scenes/areas/combat_area/combat_area.gd" id="1_1otbo"]
+[ext_resource type="Script" path="res://scenes/zones/combat_zone/combat_zone.gd" id="1_5y28m"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_22cds"]
 transparency = 1
@@ -12,8 +12,10 @@ size = Vector3(25, 25, 25)
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_f5y5x"]
 points = PackedVector3Array(12.5, 12.5, 12.5, 12.5, 12.5, -12.5, -12.5, 12.5, 12.5, 12.5, -12.5, 12.5, 12.5, -12.5, -12.5, -12.5, 12.5, -12.5, -12.5, -12.5, 12.5, -12.5, -12.5, -12.5)
 
-[node name="CombatArea" type="Node3D"]
-script = ExtResource("1_1otbo")
+[node name="CombatZone" type="Node3D" node_paths=PackedStringArray("enemy_holder", "player_spawn_point_marker")]
+script = ExtResource("1_5y28m")
+enemy_holder = NodePath("EnemyHolder")
+player_spawn_point_marker = NodePath("PlayerSpawnPointMarker")
 
 [node name="StaticObjects" type="Node3D" parent="."]
 
@@ -43,3 +45,8 @@ skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticObjects/MeshInstance3D2/StaticBody3D"]
 shape = SubResource("ConvexPolygonShape3D_f5y5x")
+
+[node name="EnemyHolder" type="Node3D" parent="."]
+
+[node name="PlayerSpawnPointMarker" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.98517, 0.0751998, -10.6599)

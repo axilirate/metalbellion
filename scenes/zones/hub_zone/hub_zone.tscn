@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://3kct3tke5i5x"]
+
+[ext_resource type="Script" path="res://scenes/zones/hub_zone/hub_zone.gd" id="1_851pr"]
+
+[node name="HubZone" type="Node3D" node_paths=PackedStringArray("player_spawn_point_marker")]
+script = ExtResource("1_851pr")
+player_spawn_point_marker = NodePath("Marker3D")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+size = Vector3(13.3593, 0.343988, 10.9153)
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.243024, 0)

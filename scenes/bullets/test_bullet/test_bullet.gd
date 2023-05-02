@@ -13,7 +13,7 @@ var life_time: float = 1
 
 func  _physics_process(delta: float) -> void:
 	global_position += properties.velocity * delta
-	process_life_time(delta)
+	_process_life_time(delta)
 
 
 
@@ -24,7 +24,7 @@ func _process(delta: float) -> void:
 
 
 
-func process_life_time(delta: float) -> void:
+func _process_life_time(delta: float) -> void:
 	life_time -= delta
 	
 	if life_time <= 0:
