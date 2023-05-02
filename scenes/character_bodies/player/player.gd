@@ -21,7 +21,7 @@ var mouse_sensitivity: float = 0.005
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	equip_weapon(Weapon.new(GlobalEnum.WeaponType.TEST_GUN))
+	equip_weapon(Weapon.new(ObjectEnum.WeaponType.TEST_GUN))
 
 
 

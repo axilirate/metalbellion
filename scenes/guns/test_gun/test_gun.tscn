@@ -15,4 +15,4 @@ script = ExtResource("1_xulka")
 barrel_marker = NodePath("BarrelMarker")
 
 [node name="BarrelMarker" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.829552)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.966231)

@@ -7,6 +7,7 @@
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xmee1"]
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("weapon_holder", "camera_target", "camera")]
+collision_layer = 2
 script = ExtResource("1_4ctie")
 weapon_holder = NodePath("PlayerCamera/WeaponHolder")
 camera_target = NodePath("CameraTarget")

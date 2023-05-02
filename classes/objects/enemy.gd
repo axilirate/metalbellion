@@ -11,9 +11,9 @@ var shape: Resource
 
 
 
-func _init(type: GlobalEnum.EnemyType) -> void:
+func _init(type: ObjectEnum.EnemyType) -> void:
 	match type:
-		GlobalEnum.EnemyType.TEST_ENEMY:
+		ObjectEnum.EnemyType.TEST_ENEMY:
 			const SCENE_PATH: String = "res://scenes/enemies/test_enemy/test_enemy.tscn"
 			var test_enemy: TestEnemy = preload(SCENE_PATH).instantiate()
 			instance = test_enemy
