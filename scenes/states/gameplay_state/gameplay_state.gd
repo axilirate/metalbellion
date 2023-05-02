@@ -15,12 +15,13 @@ var enemies_to_spawn: int = 10
 
 
 
+
 func _ready() -> void:
 	_change_zone(Zone.new(ObjectEnum.ZoneType.COMBAT))
 
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	_process_zone_change()
 
 
@@ -35,8 +36,15 @@ func _physics_process(_delta: float) -> void:
 
 
 
+
 func _process_zone_change():
-	pass
+	if enemies_to_spawn:
+		return
+	
+	if enemies.size():
+		return
+	
+	_change_zone(Zone.new(ObjectEnum.ZoneType.HUB))
 
 
 
@@ -161,6 +169,8 @@ func _change_zone(zone: Zone):
 	NodeUtils.clear_children(zone_holder)
 	zone_holder.add_child(zone.instance)
 	current_zone = zone
+
+
 
 
 
