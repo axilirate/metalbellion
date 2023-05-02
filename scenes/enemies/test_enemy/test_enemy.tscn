@@ -7,9 +7,10 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_38xyj"]
 
-[node name="TestEnemy" type="CharacterBody3D" node_paths=PackedStringArray("collision_shape")]
+[node name="TestEnemy" type="CharacterBody3D" node_paths=PackedStringArray("collision_shape", "health_bar")]
 script = ExtResource("1_ilmfg")
 collision_shape = NodePath("CollisionShape3D")
+health_bar = NodePath("HealthBar")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)

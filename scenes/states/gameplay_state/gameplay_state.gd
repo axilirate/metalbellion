@@ -15,8 +15,9 @@ var bullets: Array[Bullet] = []
 func _physics_process(_delta: float) -> void:
 	process_enemy_spawning()
 	process_player_shooting()
+	process_enemies()
 	process_bullets()
-
+	
 
 
 func process_enemy_spawning() -> void:
@@ -29,16 +30,35 @@ func process_enemy_spawning() -> void:
 
 
 func process_player_shooting() -> void:
-	if not Input.is_action_just_pressed("shoot"):
+	if not Input.is_action_pressed("shoot"):
 		return
 	
 	var bullet = Bullet.new(player.active_weapon.bullet_type)
 	bullet.instance.position = player.camera.global_position
 	bullet.instance.rotation = player.camera.global_rotation
-	bullet.properties.velocity = -player.camera.global_transform.basis.z * 25
+	bullet.properties.velocity = -player.camera.global_transform.basis.z * 60
 	add_child(bullet.instance)
 	bullet.mesh.global_position = player.active_weapon.ranged_properites.barrel_marker.global_position
 	bullets.push_back(bullet)
+
+
+
+
+
+
+func process_enemies() -> void:
+	var enemy_indexes_to_remove: Array[int] = []
+	
+	for index in enemies.size():
+		var enemy: CharacterBody3D = enemies[index]
+		if not is_instance_valid(enemy):
+			enemy_indexes_to_remove.push_back(index)
+			continue
+	
+	
+	for index in enemy_indexes_to_remove:
+		enemy_attribues.pop_at(index)
+		enemies.pop_at(index)
 
 
 
@@ -58,9 +78,12 @@ func process_bullets() -> void:
 		var overlapping_bodies = bullet.instance.get_overlapping_bodies()
 		
 		if overlapping_bodies.size():
-			if enemies.has(overlapping_bodies.front()):
-				print("hit enemy")
 			bullet.instance.queue_free()
+			
+			var enemy_index: int = enemies.find(overlapping_bodies.front())
+			if enemy_index > -1:
+				enemy_attribues[enemy_index].health -= 1
+			
 	
 	
 	

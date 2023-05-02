@@ -1,4 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://lh6ytv3rh8o3"]
+[gd_scene load_steps=5 format=3 uid="uid://lh6ytv3rh8o3"]
+
+[ext_resource type="Script" path="res://scenes/3d_nodes/health_bar/health_bar.gd" id="1_doqc8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vf3u6"]
 bg_color = Color(0, 0, 0, 1)
@@ -18,7 +20,9 @@ border_color = Color(0, 0, 0, 1)
 [sub_resource type="ViewportTexture" id="ViewportTexture_hhcyy"]
 viewport_path = NodePath("SubViewport")
 
-[node name="HealthBar" type="Node3D"]
+[node name="HealthBar" type="Node3D" node_paths=PackedStringArray("progress_bar")]
+script = ExtResource("1_doqc8")
+progress_bar = NodePath("SubViewport/ProgressBar")
 
 [node name="SubViewport" type="SubViewport" parent="."]
 disable_3d = true
