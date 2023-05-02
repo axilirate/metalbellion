@@ -15,6 +15,10 @@ var enemies_to_spawn: int = 10
 
 
 
+func _ready() -> void:
+	_change_zone(Zone.new(ObjectEnum.ZoneType.COMBAT))
+
+
 
 func _process(delta: float) -> void:
 	_process_zone_change()
@@ -38,6 +42,7 @@ func _process_zone_change():
 
 
 
+
 func _process_enemy_spawning() -> void:
 	if not is_instance_valid(current_zone.enemy_holder):
 		return
@@ -48,7 +53,13 @@ func _process_enemy_spawning() -> void:
 	if enemies.size() > 3:
 		return
 	
-	_try_to_spawn_enemy()
+	var enemy_spawn_ray_cast: RayCast3D = _create_enemy_spawn_ray_cast()
+	_try_to_spawn_enemy(enemy_spawn_ray_cast)
+	enemy_spawn_ray_cast.queue_free()
+
+
+
+
 
 
 
@@ -70,17 +81,13 @@ func _process_player_shooting() -> void:
 
 
 
+
 func _process_enemies() -> void:
-	var enemy_indexes_to_remove: Array[int] = []
-	
-	for index in enemies.size():
+	for index in range(enemies.size() - 1, -1, -1):
 		var enemy: CharacterBody3D = enemies[index]
-		if not is_instance_valid(enemy):
-			enemy_indexes_to_remove.push_back(index)
+		if is_instance_valid(enemy):
 			continue
-	
-	
-	for index in enemy_indexes_to_remove:
+		
 		enemy_attribues.pop_at(index)
 		enemies.pop_at(index)
 
@@ -88,41 +95,37 @@ func _process_enemies() -> void:
 
 
 
+
 func _process_bullets() -> void:
-	var bullet_indexes_to_remove: Array[int] = []
-	
-	
-	for index in bullets.size():
+	for index in range(bullets.size() - 1, -1, -1):
 		var bullet: Bullet = bullets[index]
 		
 		if not is_instance_valid(bullet.instance):
-			bullet_indexes_to_remove.push_back(index)
+			bullets.pop_at(index)
 			continue
 		
 		var overlapping_bodies = bullet.instance.get_overlapping_bodies()
 		
-		if overlapping_bodies.size():
-			bullet.instance.queue_free()
-			
-			var enemy_index: int = enemies.find(overlapping_bodies.front())
-			if enemy_index > -1:
-				enemy_attribues[enemy_index].health -= 1
-	
-	
-	
-	for index in bullet_indexes_to_remove:
-		bullets.pop_at(index)
+		if not overlapping_bodies.size():
+			continue
+		
+		var hit_body = overlapping_bodies.front()
+		bullet.instance.queue_free()
+		
+		if not hit_body is CharacterBody3D:
+			continue
+		
+		var enemy_index: int = enemies.find(hit_body)
+		if enemy_index > -1:
+			enemy_attribues[enemy_index].health -= 1
 
 
 
 
-func _try_to_spawn_enemy() -> void:
-	var enemy_spawn_ray_cast: RayCast3D = preload("res://scenes/3d_nodes/enemy_spawn_ray_cast/enemy_spawn_ray_cast.tscn").instantiate()
+
+
+func _try_to_spawn_enemy(enemy_spawn_ray_cast: RayCast3D) -> void:
 	var enemy = Enemy.new(ObjectEnum.EnemyType.TEST_ENEMY)
-	
-	add_child(enemy_spawn_ray_cast)
-	enemy_spawn_ray_cast.position = player.position + Vector3(randi_range(-20, 20), player.position.y + 5, randi_range(-20, 20))
-	enemy_spawn_ray_cast.force_raycast_update()
 	
 	if not _is_spawn_valid(enemy_spawn_ray_cast, enemy.shape):
 		return
@@ -131,14 +134,23 @@ func _try_to_spawn_enemy() -> void:
 		return
 	
 	var test_enemy = enemy.instance
-	
 	test_enemy.position = enemy_spawn_ray_cast.get_collision_point()
 	current_zone.enemy_holder.add_child(test_enemy)
 	enemies.push_back(test_enemy)
 	enemy_attribues.push_back(test_enemy.attributes)
 	enemies_to_spawn -= 1
-	
-	enemy_spawn_ray_cast.queue_free()
+
+
+
+
+
+
+func _create_enemy_spawn_ray_cast() -> RayCast3D:
+	var enemy_spawn_ray_cast: RayCast3D = preload("res://scenes/3d_nodes/enemy_spawn_ray_cast/enemy_spawn_ray_cast.tscn").instantiate()
+	enemy_spawn_ray_cast.position = player.position + Vector3(randi_range(-20, 20), player.position.y + 5, randi_range(-20, 20))
+	add_child(enemy_spawn_ray_cast)
+	enemy_spawn_ray_cast.force_raycast_update()
+	return enemy_spawn_ray_cast
 
 
 
@@ -147,8 +159,8 @@ func _try_to_spawn_enemy() -> void:
 
 func _change_zone(zone: Zone):
 	NodeUtils.clear_children(zone_holder)
-
-
+	zone_holder.add_child(zone.instance)
+	current_zone = zone
 
 
 

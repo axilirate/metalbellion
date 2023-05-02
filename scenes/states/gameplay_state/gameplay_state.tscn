@@ -27,9 +27,10 @@ dof_blur_amount = 1.0
 auto_exposure_min_sensitivity = 300.0
 auto_exposure_max_sensitivity = 64000.0
 
-[node name="GameplayState" type="Node3D" node_paths=PackedStringArray("player")]
+[node name="GameplayState" type="Node3D" node_paths=PackedStringArray("player", "zone_holder")]
 script = ExtResource("1_6p0bk")
 player = NodePath("Player")
+zone_holder = NodePath("ZoneHolder")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
