@@ -10,7 +10,7 @@ var enemies: Array[CharacterBody3D] = []
 
 var bullets: Array[Bullet] = []
 
-var enemies_to_spawn: int = 10
+var enemies_to_spawn: int = 20
 
 
 
@@ -21,8 +21,22 @@ func _ready() -> void:
 
 
 
+
+
+
+
+
+
+
 func _process(_delta: float) -> void:
 	_process_zone_change()
+
+
+
+
+
+
+
 
 
 
@@ -37,6 +51,13 @@ func _physics_process(_delta: float) -> void:
 
 
 
+
+
+
+
+
+
+
 func _process_zone_change():
 	if enemies_to_spawn:
 		return
@@ -45,6 +66,14 @@ func _process_zone_change():
 		return
 	
 	_change_zone(Zone.new(ObjectEnum.ZoneType.HUB))
+
+
+
+
+
+
+
+
 
 
 
@@ -72,17 +101,37 @@ func _process_enemy_spawning() -> void:
 
 
 
+
+
+
+
+
+
+
+
 func _process_player_shooting() -> void:
 	if not Input.is_action_pressed("shoot"):
 		return
 	
+	if not is_instance_valid(player.active_weapon.instance):
+		return
+	
 	var bullet = Bullet.new(player.active_weapon.bullet_type)
-	bullet.instance.position = player.camera.global_position
-	bullet.instance.rotation = player.camera.global_rotation
-	bullet.properties.velocity = -player.camera.global_transform.basis.z * 100
+	bullet.instance.position = player.active_weapon.ranged_properites.barrel_marker.global_position
+	bullet.instance.rotation = player.active_weapon.ranged_properites.barrel_marker.global_rotation
+	bullet.instance.linear_velocity = -player.camera.global_transform.basis.z * player.active_weapon.ranged_properites.bullet_speed
+	bullet.properties.last_frame_global_pos = player.active_weapon.ranged_properites.barrel_marker.global_position
 	add_child(bullet.instance)
-	bullet.mesh.global_position = player.active_weapon.ranged_properites.barrel_marker.global_position
+	bullet.mesh_instance.global_position = player.active_weapon.ranged_properites.barrel_marker.global_position
 	bullets.push_back(bullet)
+
+
+
+
+
+
+
+
 
 
 
@@ -104,6 +153,17 @@ func _process_enemies() -> void:
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 func _process_bullets() -> void:
 	for index in range(bullets.size() - 1, -1, -1):
 		var bullet: Bullet = bullets[index]
@@ -112,20 +172,51 @@ func _process_bullets() -> void:
 			bullets.pop_at(index)
 			continue
 		
-		var overlapping_bodies = bullet.instance.get_overlapping_bodies()
 		
-		if not overlapping_bodies.size():
+		var direct_space_state := get_world_3d().direct_space_state
+		var ray_query_parameters := PhysicsRayQueryParameters3D.new()
+		var shape_query_parameters := PhysicsShapeQueryParameters3D.new()
+		
+		ray_query_parameters.from = bullet.instance.global_position
+		ray_query_parameters.to = bullet.properties.last_frame_global_pos
+		
+		shape_query_parameters.transform = bullet.instance.global_transform
+		shape_query_parameters.shape = bullet.mesh_instance.mesh
+		
+		var ray_collision: Dictionary = direct_space_state.intersect_ray(ray_query_parameters)
+		var shape_collision: Array[Dictionary] = direct_space_state.intersect_shape(shape_query_parameters)
+		var collisions: Array[Dictionary] = shape_collision
+		
+		if ray_collision.size():
+			collisions.push_back(ray_collision)
+		
+		bullet.properties.last_frame_global_pos = bullet.instance.global_position
+		
+		
+		if not collisions.size():
 			continue
 		
-		var hit_body = overlapping_bodies.front()
+		
+		for collision in collisions:
+			var hit_body = collision["collider"]
+			
+			if not hit_body is CharacterBody3D:
+				continue
+				
+			var enemy_index: int = enemies.find(hit_body)
+			if enemy_index > -1:
+				enemy_attribues[enemy_index].health -= 1
+		
+		
 		bullet.instance.queue_free()
-		
-		if not hit_body is CharacterBody3D:
-			continue
-		
-		var enemy_index: int = enemies.find(hit_body)
-		if enemy_index > -1:
-			enemy_attribues[enemy_index].health -= 1
+
+
+
+
+
+
+
+
 
 
 
@@ -153,6 +244,14 @@ func _try_to_spawn_enemy(enemy_spawn_ray_cast: RayCast3D) -> void:
 
 
 
+
+
+
+
+
+
+
+
 func _create_enemy_spawn_ray_cast() -> RayCast3D:
 	var enemy_spawn_ray_cast: RayCast3D = preload("res://scenes/3d_nodes/enemy_spawn_ray_cast/enemy_spawn_ray_cast.tscn").instantiate()
 	enemy_spawn_ray_cast.position = player.position + Vector3(randi_range(-20, 20), player.position.y + 5, randi_range(-20, 20))
@@ -165,10 +264,29 @@ func _create_enemy_spawn_ray_cast() -> RayCast3D:
 
 
 
+
+
+
+
+
+
+
+
+
+
 func _change_zone(zone: Zone):
 	NodeUtils.clear_children(zone_holder)
 	zone_holder.add_child(zone.instance)
 	current_zone = zone
+
+
+
+
+
+
+
+
+
 
 
 

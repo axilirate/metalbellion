@@ -1,6 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://k60bown04x0h"]
+[gd_scene load_steps=5 format=3 uid="uid://k60bown04x0h"]
 
 [ext_resource type="Script" path="res://scenes/guns/test_gun/test_gun.gd" id="1_xulka"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_a5m77"]
+points = PackedVector3Array(0.125, 0.125, 1, 0.125, -0.125, 1, 0.125, 0.125, -1, -0.125, 0.125, 1, -0.125, -0.125, 1, 0.125, -0.125, -1, -0.125, 0.125, -1, -0.125, -0.125, -1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_jfs07"]
 size = Vector3(0.25, 0.25, 2)
@@ -8,11 +11,25 @@ size = Vector3(0.25, 0.25, 2)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6lobp"]
 albedo_color = Color(0.117647, 0.117647, 0.117647, 1)
 
-[node name="TestGun" type="MeshInstance3D" node_paths=PackedStringArray("barrel_marker")]
+[node name="TestGun" type="RigidBody3D" node_paths=PackedStringArray("barrel_marker", "mesh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.675023)
+collision_layer = 0
+collision_mask = 0
+custom_integrator = true
+max_contacts_reported = 1
+can_sleep = false
+script = ExtResource("1_xulka")
+barrel_marker = NodePath("MeshInstance3D/BarrelMarker")
+mesh = NodePath("MeshInstance3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_a5m77")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+top_level = true
+layers = 4
 mesh = SubResource("BoxMesh_jfs07")
 surface_material_override/0 = SubResource("StandardMaterial3D_6lobp")
-script = ExtResource("1_xulka")
-barrel_marker = NodePath("BarrelMarker")
 
-[node name="BarrelMarker" type="Marker3D" parent="."]
+[node name="BarrelMarker" type="Marker3D" parent="MeshInstance3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.966231)

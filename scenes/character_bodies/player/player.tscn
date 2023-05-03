@@ -6,9 +6,10 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xmee1"]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("weapon_holder", "camera_target", "camera")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("canvas_layer", "weapon_holder", "camera_target", "camera")]
 collision_layer = 2
 script = ExtResource("1_4ctie")
+canvas_layer = NodePath("PlayerCanvasLayer")
 weapon_holder = NodePath("PlayerCamera/WeaponHolder")
 camera_target = NodePath("CameraTarget")
 camera = NodePath("PlayerCamera")
@@ -23,6 +24,7 @@ shape = SubResource("CapsuleShape3D_xmee1")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [node name="PlayerCamera" parent="." instance=ExtResource("3_1hmud")]
+cull_mask = 1
 
 [node name="WeaponHolder" type="Node3D" parent="PlayerCamera"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.620432, -0.433184, -1.18676)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.803, -0.411, -0.154)

@@ -4,4 +4,5 @@ class_name BulletProperties
 
 
 
-var velocity: Vector3
+
+var last_frame_global_pos: Vector3

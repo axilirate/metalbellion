@@ -8,6 +8,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_38xyj"]
 
 [node name="TestEnemy" type="CharacterBody3D" node_paths=PackedStringArray("collision_shape", "health_bar")]
+collision_layer = 5
 script = ExtResource("1_ilmfg")
 collision_shape = NodePath("CollisionShape3D")
 health_bar = NodePath("HealthBar")

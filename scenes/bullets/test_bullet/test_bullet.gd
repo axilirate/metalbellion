@@ -1,25 +1,30 @@
-class_name TestBullet extends Area3D
-
-
+class_name TestBullet extends RigidBody3D
 
 
 @export var mesh: MeshInstance3D
 
-var properties = BulletProperties.new()
+
+var properties: BulletProperties
 var life_time: float = 1
 
 
 
 
 func  _physics_process(delta: float) -> void:
-	global_position += properties.velocity * delta
 	_process_life_time(delta)
 
 
-
 func _process(delta: float) -> void:
-	mesh.global_position += properties.velocity * delta
-	mesh.global_position = lerp(mesh.global_position, global_position, delta * 5)
+	_process_mesh(delta)
+
+
+
+func _process_mesh(delta: float) -> void:
+	var current_rot: Quaternion = mesh.global_transform.basis.get_rotation_quaternion()
+	var target_rot: Quaternion = global_transform.basis.get_rotation_quaternion()
+	var smooth_rot = lerp(current_rot, target_rot, delta * 60)
+	mesh.global_position = lerp(mesh.global_position, global_position, delta * 60)
+	mesh.global_transform.basis = Basis(smooth_rot)
 
 
 

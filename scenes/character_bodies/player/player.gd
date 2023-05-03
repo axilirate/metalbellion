@@ -1,5 +1,6 @@
 class_name Player extends CharacterBody3D
 
+@export var canvas_layer: PlayerCanvasLayer
 @export var weapon_holder: Node3D
 @export var camera_target: Marker3D
 @export var camera: Camera3D
@@ -30,7 +31,6 @@ func _process(delta: float) -> void:
 
 
 
-
 func _physics_process(_delta: float) -> void:
 	_process_velocity()
 	move_and_slide()
@@ -45,12 +45,23 @@ func _input(event: InputEvent) -> void:
 
 
 
+
 func _process_camera(delta) -> void:
-	var current_rot = Quaternion(camera.global_transform.basis.get_rotation_quaternion())
-	var target_rot = Quaternion(camera_target.global_transform.basis.get_rotation_quaternion())
+	var current_rot: Quaternion = camera.global_transform.basis.get_rotation_quaternion()
+	var target_rot: Quaternion = camera_target.global_transform.basis.get_rotation_quaternion()
 	var smooth_rot = lerp(current_rot, target_rot, delta * 60)
 	camera.global_position = lerp(camera.global_position, camera_target.global_position, delta * 20)
 	camera.global_transform.basis = Basis(smooth_rot)
+	
+	canvas_layer.outline_viewport_container.camera.global_transform = camera.global_transform
+	canvas_layer.outline_viewport_container.camera.fov = camera.fov
+	
+	canvas_layer.player_view_viewport_container.camera.global_transform = camera.global_transform
+	canvas_layer.player_view_viewport_container.camera.fov = camera.fov
+
+
+
+
 
 
 
@@ -60,6 +71,11 @@ func _process_velocity() -> void:
 	var input_dir: Vector2 = Input.get_vector("move_right", "move_left", "move_forward", "move_backward")
 	var move_dir: Vector3 = Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, rotation.y)
 	velocity = move_dir * speed
+
+
+
+
+
 
 
 
@@ -81,7 +97,6 @@ func _process_look_rotation(event: InputEvent) -> void:
 
 
 func _equip_weapon(weapon: Weapon) -> void:
-	NodeUtils.clear_children(weapon_holder)
 	active_weapon = weapon
 	weapon_holder.add_child(weapon.instance)
 

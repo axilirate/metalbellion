@@ -4,9 +4,9 @@ class_name Bullet extends RefCounted
 
 
 
-var instance: Area3D
-var mesh: MeshInstance3D
-var properties: BulletProperties
+var instance: RigidBody3D
+var mesh_instance: MeshInstance3D
+var properties = BulletProperties.new()
 
 
 func _init(type: ObjectEnum.BulletType) -> void:
@@ -15,5 +15,5 @@ func _init(type: ObjectEnum.BulletType) -> void:
 			const SCENE_PATH: String = "res://scenes/bullets/test_bullet/test_bullet.tscn"
 			var test_bullet: TestBullet = preload(SCENE_PATH).instantiate()
 			instance = test_bullet
-			mesh = test_bullet.mesh
-			properties = test_bullet.properties
+			mesh_instance = test_bullet.mesh
+			test_bullet.properties = properties

@@ -6,5 +6,5 @@
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 top_level = true
 current = true
-fov = 37.8493
+fov = 50.0
 script = ExtResource("1_ub7x6")
