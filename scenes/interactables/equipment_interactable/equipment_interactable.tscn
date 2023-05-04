@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://i6lgey1843su"]
+
+[ext_resource type="Script" path="res://scenes/interactables/equipment_interactable/equipment_interactable.gd" id="1_gwg73"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_8s8wj"]
+points = PackedVector3Array(1, 1, 0.125, 1, 1, -0.125, -1, 1, 0.125, 1, -1, 0.125, 1, -1, -0.125, -1, 1, -0.125, -1, -1, 0.125, -1, -1, -0.125)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tkt2q"]
+albedo_color = Color(0.843137, 0.392157, 0.0235294, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sfc8e"]
+size = Vector3(2, 2, 0.25)
+
+[node name="EquipmentInteractable" type="StaticBody3D" node_paths=PackedStringArray("mesh")]
+script = ExtResource("1_gwg73")
+mesh = NodePath("MeshInstance3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("ConvexPolygonShape3D_8s8wj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = SubResource("StandardMaterial3D_tkt2q")
+mesh = SubResource("BoxMesh_sfc8e")

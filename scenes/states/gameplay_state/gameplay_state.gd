@@ -46,6 +46,7 @@ func _physics_process(_delta: float) -> void:
 	_process_enemies()
 	_process_bullets()
 	
+	_process_interaction()
 	_process_interactable_nodes()
 	_process_interactable_outlines()
 
@@ -78,20 +79,41 @@ func _process_zone_change():
 
 
 
-
-
-func _process_interactable_nodes() -> void:
+func _process_interaction() -> void:
 	if not Input.is_action_just_pressed("interact"):
 		return
 	
-	if not is_instance_valid(current_zone.enter_combat_zone_interactable):
-		return
-	
-	
 	var collider = player.interaction_ray_cast.get_collider()
 	
-	if collider is EnterCombatZoneInteractable:
-		_change_zone(Zone.new(TypeCollection.ZoneType.COMBAT))
+	if is_instance_valid(current_zone.enter_combat_zone_interactable):
+		if collider is EnterCombatZoneInteractable:
+			_change_zone(Zone.new(TypeCollection.ZoneType.COMBAT))
+
+
+
+
+
+
+
+
+func _process_interactable_nodes() -> void:
+	var collider = player.interaction_ray_cast.get_collider()
+	
+	
+	if is_instance_valid(current_zone.enter_combat_zone_interactable):
+		current_zone.enter_combat_zone_interactable.mesh.set_layer_mask_value(2, false)
+		
+		if collider is EnterCombatZoneInteractable:
+			collider.mesh.set_layer_mask_value(2, true)
+	
+	
+	
+	if is_instance_valid(current_zone.equipment_interactable):
+		current_zone.equipment_interactable.mesh.set_layer_mask_value(2, false)
+		
+		if collider is EquipmentInteractable:
+			collider.mesh.set_layer_mask_value(2, true)
+
 
 
 
@@ -111,6 +133,9 @@ func _process_interactable_outlines() -> void:
 	var collider = player.interaction_ray_cast.get_collider()
 	
 	if collider is EnterCombatZoneInteractable:
+		target_thickness = 6.0
+	
+	if collider is EquipmentInteractable:
 		target_thickness = 6.0
 	
 	matarial.set_shader_parameter("line_thickness", target_thickness)
