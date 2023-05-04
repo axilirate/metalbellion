@@ -1,4 +1,4 @@
-class_name ObjectEnum
+class_name TypeCollection
 
 
 

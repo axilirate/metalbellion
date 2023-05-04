@@ -11,9 +11,9 @@ var shape: Resource
 
 
 
-func _init(type: ObjectEnum.EnemyType) -> void:
+func _init(type: TypeCollection.EnemyType) -> void:
 	match type:
-		ObjectEnum.EnemyType.TEST_ENEMY:
+		TypeCollection.EnemyType.TEST_ENEMY:
 			const SCENE_PATH: String = "res://scenes/enemies/test_enemy/test_enemy.tscn"
 			var test_enemy: TestEnemy = preload(SCENE_PATH).instantiate()
 			test_enemy.attributes.max_health = 10

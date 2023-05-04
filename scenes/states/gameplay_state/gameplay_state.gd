@@ -17,7 +17,7 @@ var enemies_to_spawn: int = 20
 
 
 func _ready() -> void:
-	_change_zone(Zone.new(ObjectEnum.ZoneType.COMBAT))
+	_change_zone(Zone.new(TypeCollection.ZoneType.COMBAT))
 
 
 
@@ -65,7 +65,7 @@ func _process_zone_change():
 	if enemies.size():
 		return
 	
-	_change_zone(Zone.new(ObjectEnum.ZoneType.HUB))
+	_change_zone(Zone.new(TypeCollection.ZoneType.HUB))
 
 
 
@@ -192,13 +192,10 @@ func _process_bullets() -> void:
 		
 		var hit_body = ray_collision["collider"]
 		
-		if not hit_body is CharacterBody3D:
-			continue
-			
-		var enemy_index: int = enemies.find(hit_body)
-		if enemy_index > -1:
-			enemy_attribues[enemy_index].health -= 1
-		
+		if hit_body is CharacterBody3D:
+			var enemy_index: int = enemies.find(hit_body)
+			if enemy_index > -1:
+				enemy_attribues[enemy_index].health -= 1
 		
 		bullet.instance.queue_free()
 
@@ -216,7 +213,7 @@ func _process_bullets() -> void:
 
 
 func _try_to_spawn_enemy(enemy_spawn_ray_cast: RayCast3D) -> void:
-	var enemy = Enemy.new(ObjectEnum.EnemyType.TEST_ENEMY)
+	var enemy = Enemy.new(TypeCollection.EnemyType.TEST_ENEMY)
 	
 	if not _is_spawn_valid(enemy_spawn_ray_cast, enemy.shape):
 		return

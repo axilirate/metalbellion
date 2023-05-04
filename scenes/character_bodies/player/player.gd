@@ -1,5 +1,6 @@
 class_name Player extends CharacterBody3D
 
+@export var interaction_ray_cast: RayCast3D
 @export var canvas_layer: PlayerCanvasLayer
 @export var weapon_holder: Node3D
 @export var camera_target: Marker3D
@@ -22,7 +23,7 @@ var mouse_sensitivity: float = 0.005
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	_equip_weapon(Weapon.new(ObjectEnum.WeaponType.TEST_GUN))
+	_equip_weapon(Weapon.new(TypeCollection.WeaponType.TEST_GUN))
 
 
 

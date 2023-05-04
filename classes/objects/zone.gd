@@ -13,9 +13,9 @@ var player_spawn_point_marker: Marker3D
 
 
 
-func _init(type: ObjectEnum.ZoneType) -> void:
+func _init(type: TypeCollection.ZoneType) -> void:
 	match type:
-		ObjectEnum.ZoneType.COMBAT:
+		TypeCollection.ZoneType.COMBAT:
 			var combat_zone = preload("res://scenes/zones/combat_zone/combat_zone.tscn").instantiate()
 			instance = combat_zone
 			
@@ -23,7 +23,7 @@ func _init(type: ObjectEnum.ZoneType) -> void:
 			player_spawn_point_marker = combat_zone.player_spawn_point_marker
 			
 			
-		ObjectEnum.ZoneType.HUB:
+		TypeCollection.ZoneType.HUB:
 			var hub_zone = preload("res://scenes/zones/hub_zone/hub_zone.tscn").instantiate()
 			instance = hub_zone
 			
