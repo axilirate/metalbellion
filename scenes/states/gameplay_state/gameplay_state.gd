@@ -66,6 +66,9 @@ func _process_zone_change():
 	if enemies.size():
 		return
 	
+	if not is_instance_valid(current_zone.enemy_nodes):
+		return
+	
 	_change_zone(Zone.new(TypeCollection.ZoneType.HUB))
 
 
@@ -78,13 +81,17 @@ func _process_zone_change():
 
 
 func _process_interactable_nodes() -> void:
+	if not Input.is_action_just_pressed("interact"):
+		return
+	
 	if not is_instance_valid(current_zone.enter_combat_zone_interactable):
 		return
 	
 	
 	var collider = player.interaction_ray_cast.get_collider()
 	
-
+	if collider is EnterCombatZoneInteractable:
+		_change_zone(Zone.new(TypeCollection.ZoneType.COMBAT))
 
 
 
@@ -98,8 +105,8 @@ func _process_interactable_outlines() -> void:
 	var target_thickness: float = 0.0
 	
 	if not is_instance_valid(current_zone.enter_combat_zone_interactable):
+		matarial.set_shader_parameter("line_thickness", target_thickness)
 		return
-	
 	
 	var collider = player.interaction_ray_cast.get_collider()
 	
@@ -318,7 +325,9 @@ func _change_zone(zone: Zone):
 	NodeUtils.clear_children(zone_holder)
 	zone_holder.add_child(zone.instance)
 	current_zone = zone
-
+	
+	if is_instance_valid(zone.enemy_nodes):
+		enemies_to_spawn = 10
 
 
 
