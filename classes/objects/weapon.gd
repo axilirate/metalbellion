@@ -17,7 +17,7 @@ func _init(type: ObjectEnum.WeaponType) -> void:
 			const SCENE_PATH: String = "res://scenes/guns/test_gun/test_gun.tscn"
 			var test_gun: TestGun = preload(SCENE_PATH).instantiate()
 			ranged_properites.barrel_marker = test_gun.barrel_marker
-			ranged_properites.bullet_speed = 100
+			ranged_properites.bullet_speed = 300
 			bullet_type = ObjectEnum.BulletType.TEST_BULLET
 			instance = test_gun
 			

@@ -175,37 +175,29 @@ func _process_bullets() -> void:
 		
 		var direct_space_state := get_world_3d().direct_space_state
 		var ray_query_parameters := PhysicsRayQueryParameters3D.new()
-		var shape_query_parameters := PhysicsShapeQueryParameters3D.new()
 		
 		ray_query_parameters.from = bullet.instance.global_position
 		ray_query_parameters.to = bullet.properties.last_frame_global_pos
 		
-		shape_query_parameters.transform = bullet.instance.global_transform
-		shape_query_parameters.shape = bullet.mesh_instance.mesh
+		
 		
 		var ray_collision: Dictionary = direct_space_state.intersect_ray(ray_query_parameters)
-		var shape_collision: Array[Dictionary] = direct_space_state.intersect_shape(shape_query_parameters)
-		var collisions: Array[Dictionary] = shape_collision
-		
-		if ray_collision.size():
-			collisions.push_back(ray_collision)
 		
 		bullet.properties.last_frame_global_pos = bullet.instance.global_position
 		
 		
-		if not collisions.size():
+		if not ray_collision.size():
 			continue
 		
 		
-		for collision in collisions:
-			var hit_body = collision["collider"]
+		var hit_body = ray_collision["collider"]
+		
+		if not hit_body is CharacterBody3D:
+			continue
 			
-			if not hit_body is CharacterBody3D:
-				continue
-				
-			var enemy_index: int = enemies.find(hit_body)
-			if enemy_index > -1:
-				enemy_attribues[enemy_index].health -= 1
+		var enemy_index: int = enemies.find(hit_body)
+		if enemy_index > -1:
+			enemy_attribues[enemy_index].health -= 1
 		
 		
 		bullet.instance.queue_free()
