@@ -1,0 +1,1 @@
+class_name EnterCombatZoneInteractable extends StaticBody3D

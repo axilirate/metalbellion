@@ -6,7 +6,7 @@ class_name Zone extends RefCounted
 
 
 var instance: Node3D
-var enemy_holder: Node3D
+var enemy_nodes: Node3D
 var player_spawn_point_marker: Marker3D
 
 
@@ -19,7 +19,7 @@ func _init(type: TypeCollection.ZoneType) -> void:
 			var combat_zone = preload("res://scenes/zones/combat_zone/combat_zone.tscn").instantiate()
 			instance = combat_zone
 			
-			enemy_holder = combat_zone.enemy_holder
+			enemy_nodes = combat_zone.enemy_nodes
 			player_spawn_point_marker = combat_zone.player_spawn_point_marker
 			
 			

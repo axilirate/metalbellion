@@ -81,7 +81,7 @@ func _process_zone_change():
 
 
 func _process_enemy_spawning() -> void:
-	if not is_instance_valid(current_zone.enemy_holder):
+	if not is_instance_valid(current_zone.enemy_nodes):
 		return
 	
 	if not enemies_to_spawn:
@@ -218,12 +218,12 @@ func _try_to_spawn_enemy(enemy_spawn_ray_cast: RayCast3D) -> void:
 	if not _is_spawn_valid(enemy_spawn_ray_cast, enemy.shape):
 		return
 	
-	if not is_instance_valid(current_zone.enemy_holder):
+	if not is_instance_valid(current_zone.enemy_nodes):
 		return
 	
 	var test_enemy = enemy.instance
 	test_enemy.position = enemy_spawn_ray_cast.get_collision_point()
-	current_zone.enemy_holder.add_child(test_enemy)
+	current_zone.enemy_nodes.add_child(test_enemy)
 	enemies.push_back(test_enemy)
 	enemy_attribues.push_back(test_enemy.attributes)
 	enemies_to_spawn -= 1
