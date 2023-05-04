@@ -10,7 +10,7 @@ var enemies: Array[CharacterBody3D] = []
 
 var bullets: Array[Bullet] = []
 
-var enemies_to_spawn: int = 20
+var enemies_to_spawn: int = 5
 
 
 
@@ -40,13 +40,14 @@ func _process(_delta: float) -> void:
 
 
 
-
 func _physics_process(_delta: float) -> void:
 	_process_enemy_spawning()
 	_process_player_shooting()
 	_process_enemies()
 	_process_bullets()
-
+	
+	_process_interactable_nodes()
+	_process_interactable_outlines()
 
 
 
@@ -66,6 +67,56 @@ func _process_zone_change():
 		return
 	
 	_change_zone(Zone.new(TypeCollection.ZoneType.HUB))
+
+
+
+
+
+
+
+
+
+
+func _process_interactable_nodes() -> void:
+	if not is_instance_valid(current_zone.enter_combat_zone_interactable):
+		return
+	
+	
+	var collider = player.interaction_ray_cast.get_collider()
+	
+
+
+
+
+
+
+
+
+
+func _process_interactable_outlines() -> void:
+	var matarial: ShaderMaterial = player.canvas_layer.outline_viewport_container.material as ShaderMaterial
+	var target_thickness: float = 0.0
+	
+	if not is_instance_valid(current_zone.enter_combat_zone_interactable):
+		return
+	
+	
+	var collider = player.interaction_ray_cast.get_collider()
+	
+	if collider is EnterCombatZoneInteractable:
+		target_thickness = 6.0
+	
+	matarial.set_shader_parameter("line_thickness", target_thickness)
+
+
+
+
+
+
+
+
+
+
 
 
 

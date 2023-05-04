@@ -3,9 +3,10 @@
 [ext_resource type="Script" path="res://scenes/zones/hub_zone/hub_zone.gd" id="1_851pr"]
 [ext_resource type="PackedScene" uid="uid://bodgld7duvigh" path="res://scenes/3d_nodes/enter_combat_zone_interactable/enter_combat_zone_interactable.tscn" id="2_caq2x"]
 
-[node name="HubZone" type="Node3D" node_paths=PackedStringArray("player_spawn_point_marker")]
+[node name="HubZone" type="Node3D" node_paths=PackedStringArray("player_spawn_point_marker", "enter_combat_zone_interactable")]
 script = ExtResource("1_851pr")
 player_spawn_point_marker = NodePath("Marker3D")
+enter_combat_zone_interactable = NodePath("EnterCombatZoneInteractable")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 size = Vector3(17.2791, 0.343988, 15.7429)
