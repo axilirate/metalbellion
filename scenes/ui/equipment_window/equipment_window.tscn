@@ -2,14 +2,15 @@
 
 [ext_resource type="Script" path="res://scenes/ui/equipment_window/equipment_window.gd" id="1_fkkqq"]
 
-[node name="EquipmentWindow" type="MarginContainer" node_paths=PackedStringArray("close_button")]
+[node name="EquipmentWindow" type="MarginContainer" node_paths=PackedStringArray("close_button", "bio_fragments_label")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fkkqq")
-close_button = NodePath("CenterContainer/CloseButton")
+close_button = NodePath("CenterContainer/HBoxContainer/CloseButton")
+bio_fragments_label = NodePath("CenterContainer/HBoxContainer/BioFragmentsLabel")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 2
@@ -17,6 +18,16 @@ layout_mode = 2
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 2
 
-[node name="CloseButton" type="Button" parent="CenterContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 68
+
+[node name="BioFragmentsLabel" type="Label" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+text = "Bio Fragments: 0"
+
+[node name="CloseButton" type="Button" parent="CenterContainer/HBoxContainer"]
 layout_mode = 2
 text = "CLOSE"

@@ -7,6 +7,7 @@ class_name Player extends CharacterBody3D
 @export var camera: Camera3D
 
 var attributes := Attributes.new()
+var inventory := Inventory.new()
 var active_weapon: Weapon
 
 var speed: float = 10

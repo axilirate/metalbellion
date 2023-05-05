@@ -33,3 +33,4 @@ stretch_mode = 5
 [node name="PlayerViewViewportContainer" parent="." instance=ExtResource("4_8r42b")]
 
 [node name="EquipmentWindow" parent="." instance=ExtResource("5_puuii")]
+visible = false
