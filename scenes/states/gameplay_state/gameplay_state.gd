@@ -5,8 +5,9 @@ class_name GameplayState extends Node3D
 
 var current_zone: Zone
 
-var enemy_attribues: Array[Attributes] = []
-var enemies: Array[CharacterBody3D] = []
+
+var enemy_bodies: Array[CharacterBody3D] = []
+var enemies: Array[Enemy] = []
 
 var bullets: Array[Bullet] = []
 
@@ -64,7 +65,7 @@ func _process_zone_change():
 	if enemies_to_spawn:
 		return
 	
-	if enemies.size():
+	if enemy_bodies.size():
 		return
 	
 	if not is_instance_valid(current_zone.enemy_nodes):
@@ -142,6 +143,15 @@ func _process_interaction() -> void:
 
 
 
+
+
+
+
+
+
+
+
+
 func _process_interactable_nodes() -> void:
 	var collider = player.interaction_ray_cast.get_collider()
 	
@@ -159,6 +169,14 @@ func _process_interactable_nodes() -> void:
 		
 		if collider is EquipmentInteractable:
 			collider.mesh.set_layer_mask_value(2, true)
+
+
+
+
+
+
+
+
 
 
 
@@ -216,7 +234,7 @@ func _process_enemy_spawning() -> void:
 	if not enemies_to_spawn:
 		return
 	
-	if enemies.size() > 3:
+	if enemy_bodies.size() > 3:
 		return
 	
 	var enemy_spawn_ray_cast: RayCast3D = _create_enemy_spawn_ray_cast()
@@ -269,13 +287,13 @@ func _process_player_shooting() -> void:
 
 
 func _process_enemies() -> void:
-	for index in range(enemies.size() - 1, -1, -1):
-		var enemy: CharacterBody3D = enemies[index]
+	for index in range(enemy_bodies.size() - 1, -1, -1):
+		var enemy: CharacterBody3D = enemy_bodies[index]
 		if is_instance_valid(enemy):
 			continue
 		
-		enemy_attribues.pop_at(index)
 		enemies.pop_at(index)
+		enemy_bodies.pop_at(index)
 
 
 
@@ -322,12 +340,11 @@ func _process_bullets() -> void:
 		var hit_body = ray_collision["collider"]
 		
 		if hit_body is CharacterBody3D:
-			var enemy_index: int = enemies.find(hit_body)
+			var enemy_index: int = enemy_bodies.find(hit_body)
 			if enemy_index > -1:
-				enemy_attribues[enemy_index].health -= 1
+				_damage_enemy(enemies[enemy_index], 1)
 		
 		bullet.instance.queue_free()
-
 
 
 
@@ -353,8 +370,8 @@ func _try_to_spawn_enemy(enemy_spawn_ray_cast: RayCast3D) -> void:
 	var test_enemy = enemy.instance
 	test_enemy.position = enemy_spawn_ray_cast.get_collision_point()
 	current_zone.enemy_nodes.add_child(test_enemy)
-	enemies.push_back(test_enemy)
-	enemy_attribues.push_back(test_enemy.attributes)
+	enemy_bodies.push_back(test_enemy)
+	enemies.push_back(enemy)
 	enemies_to_spawn -= 1
 
 
@@ -387,6 +404,14 @@ func _create_enemy_spawn_ray_cast() -> RayCast3D:
 
 
 
+func _damage_enemy(enemy: Enemy, damage: int) -> void:
+	enemy.attributes.health -= damage
+	
+	if enemy.attributes.health <= 0:
+		player.inventory.bio_fragments += enemy.base_bio_fragmet_reward
+
+
+
 
 
 
@@ -399,6 +424,10 @@ func _change_zone(zone: Zone):
 	
 	if is_instance_valid(zone.enemy_nodes):
 		enemies_to_spawn = 10
+
+
+
+
 
 
 

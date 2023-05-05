@@ -28,8 +28,20 @@ func _ready() -> void:
 
 
 
+
+
+
+
 func _process(delta: float) -> void:
+	_update_bio_fragments_label()
 	_process_camera(delta)
+	
+
+
+
+
+
+
 
 
 
@@ -40,10 +52,27 @@ func _physics_process(_delta: float) -> void:
 
 
 
+
+
+
+
+
+
+
+
 func _input(event: InputEvent) -> void:
 	_process_camera_target_look_rotation(event)
 	_process_look_rotation(event)
 	
+
+
+
+
+
+
+
+
+
 
 
 
@@ -69,10 +98,26 @@ func _process_camera(delta) -> void:
 
 
 
+
+
+
+
+
+
+
 func _process_velocity() -> void:
 	var input_dir: Vector2 = Input.get_vector("move_right", "move_left", "move_forward", "move_backward")
 	var move_dir: Vector3 = Vector3(input_dir.x, 0, input_dir.y).rotated(Vector3.UP, rotation.y)
 	velocity = move_dir * speed
+
+
+
+
+
+
+
+
+
 
 
 
@@ -90,6 +135,15 @@ func _process_camera_target_look_rotation(event: InputEvent) -> void:
 
 
 
+
+
+
+
+
+
+
+
+
 func _process_look_rotation(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * mouse_sensitivity)
@@ -98,9 +152,37 @@ func _process_look_rotation(event: InputEvent) -> void:
 
 
 
+
+
+
+
+
+
+
+
+
+
 func _equip_weapon(weapon: Weapon) -> void:
 	active_weapon = weapon
 	weapon_holder.add_child(weapon.instance)
+
+
+
+
+
+
+
+
+
+
+
+
+func _update_bio_fragments_label() -> void:
+	canvas_layer.equipment_window.bio_fragments_label.text = "Bio Fragments: " + str(inventory.bio_fragments)
+
+
+
+
 
 
 
