@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://ck5qbqe2etyq4"]
+
+[ext_resource type="Script" path="res://scenes/ui/equipment_window/equipment_window.gd" id="1_fkkqq"]
+
+[node name="EquipmentWindow" type="MarginContainer" node_paths=PackedStringArray("close_button")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fkkqq")
+close_button = NodePath("CenterContainer/CloseButton")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 2
+
+[node name="CloseButton" type="Button" parent="CenterContainer"]
+layout_mode = 2
+text = "CLOSE"

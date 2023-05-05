@@ -30,7 +30,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	_process_zone_change()
-
+	_process_equipment_window()
 
 
 
@@ -79,6 +79,48 @@ func _process_zone_change():
 
 
 
+
+
+
+
+
+
+
+
+
+func _process_equipment_window() -> void:
+	var equipment_window: EquipmentWindow = player.canvas_layer.equipment_window
+	
+	
+	if not Input.is_action_just_pressed("ui_press"):
+		return
+	
+	
+	if UI.is_hovered(equipment_window.close_button):
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		equipment_window.hide()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 func _process_interaction() -> void:
 	if not Input.is_action_just_pressed("interact"):
 		return
@@ -88,7 +130,11 @@ func _process_interaction() -> void:
 	if is_instance_valid(current_zone.enter_combat_zone_interactable):
 		if collider is EnterCombatZoneInteractable:
 			_change_zone(Zone.new(TypeCollection.ZoneType.COMBAT))
-
+	
+	if is_instance_valid(current_zone.equipment_interactable):
+		if collider is EquipmentInteractable:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			player.canvas_layer.equipment_window.show()
 
 
 
