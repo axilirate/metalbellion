@@ -21,5 +21,4 @@ enum BulletType {
 
 enum ZoneType {
 	COMBAT,
-	HUB,
 }

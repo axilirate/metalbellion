@@ -26,15 +26,8 @@ func _ready() -> void:
 
 
 
-
-
-
-func _process(_delta: float) -> void:
-	_process_zone_change()
-	_process_equipment_window()
-
-
-
+func _process(delta: float) -> void:
+	_process_upgrade_window()
 
 
 
@@ -46,10 +39,16 @@ func _physics_process(_delta: float) -> void:
 	_process_player_shooting()
 	_process_enemies()
 	_process_bullets()
+
+
+
+
+
+
+
+
+
 	
-	_process_interaction()
-	_process_interactable_nodes()
-	_process_interactable_outlines()
 
 
 
@@ -61,154 +60,19 @@ func _physics_process(_delta: float) -> void:
 
 
 
-func _process_zone_change():
+
+
+
+func _process_upgrade_window() -> void:
+	player.canvas_layer.upgrade_window.hide()
+	
 	if enemies_to_spawn:
 		return
 	
 	if enemy_bodies.size():
 		return
 	
-	if not is_instance_valid(current_zone.enemy_nodes):
-		return
-	
-	_change_zone(Zone.new(TypeCollection.ZoneType.HUB))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-func _process_equipment_window() -> void:
-	var equipment_window: EquipmentWindow = player.canvas_layer.equipment_window
-	
-	
-	if not Input.is_action_just_pressed("ui_press"):
-		return
-	
-	
-	if UI.is_hovered(equipment_window.close_button):
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		equipment_window.hide()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-func _process_interaction() -> void:
-	if not Input.is_action_just_pressed("interact"):
-		return
-	
-	var collider = player.interaction_ray_cast.get_collider()
-	
-	if is_instance_valid(current_zone.enter_combat_zone_interactable):
-		if collider is EnterCombatZoneInteractable:
-			_change_zone(Zone.new(TypeCollection.ZoneType.COMBAT))
-	
-	if is_instance_valid(current_zone.equipment_interactable):
-		if collider is EquipmentInteractable:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-			player.canvas_layer.equipment_window.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-func _process_interactable_nodes() -> void:
-	var collider = player.interaction_ray_cast.get_collider()
-	
-	
-	if is_instance_valid(current_zone.enter_combat_zone_interactable):
-		current_zone.enter_combat_zone_interactable.mesh.set_layer_mask_value(2, false)
-		
-		if collider is EnterCombatZoneInteractable:
-			collider.mesh.set_layer_mask_value(2, true)
-	
-	
-	
-	if is_instance_valid(current_zone.equipment_interactable):
-		current_zone.equipment_interactable.mesh.set_layer_mask_value(2, false)
-		
-		if collider is EquipmentInteractable:
-			collider.mesh.set_layer_mask_value(2, true)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-func _process_interactable_outlines() -> void:
-	var matarial: ShaderMaterial = player.canvas_layer.outline_viewport_container.material as ShaderMaterial
-	var target_thickness: float = 0.0
-	
-	if not is_instance_valid(current_zone.enter_combat_zone_interactable):
-		matarial.set_shader_parameter("line_thickness", target_thickness)
-		return
-	
-	var collider = player.interaction_ray_cast.get_collider()
-	
-	if collider is EnterCombatZoneInteractable:
-		target_thickness = 6.0
-	
-	if collider is EquipmentInteractable:
-		target_thickness = 6.0
-	
-	matarial.set_shader_parameter("line_thickness", target_thickness)
-
-
-
-
-
-
+	player.canvas_layer.upgrade_window.show()
 
 
 
@@ -406,9 +270,6 @@ func _create_enemy_spawn_ray_cast() -> RayCast3D:
 
 func _damage_enemy(enemy: Enemy, damage: int) -> void:
 	enemy.attributes.health -= damage
-	
-	if enemy.attributes.health <= 0:
-		player.inventory.bio_fragments += enemy.base_bio_fragmet_reward
 
 
 

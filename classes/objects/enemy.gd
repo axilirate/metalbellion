@@ -8,7 +8,6 @@ class_name Enemy extends RefCounted
 
 var instance: CharacterBody3D
 var attributes = Attributes.new()
-var base_bio_fragmet_reward: int
 var shape: Resource
 
 
@@ -24,5 +23,3 @@ func _init(type: TypeCollection.EnemyType) -> void:
 			
 			instance = test_enemy
 			shape = test_enemy.collision_shape.shape
-			
-			base_bio_fragmet_reward = 1

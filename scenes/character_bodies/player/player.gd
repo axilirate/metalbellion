@@ -7,7 +7,6 @@ class_name Player extends CharacterBody3D
 @export var camera: Camera3D
 
 var attributes := Attributes.new()
-var inventory := Inventory.new()
 var active_weapon: Weapon
 
 var speed: float = 10
@@ -33,7 +32,6 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	_update_bio_fragments_label()
 	_process_camera(delta)
 	
 
@@ -168,17 +166,6 @@ func _equip_weapon(weapon: Weapon) -> void:
 
 
 
-
-
-
-
-
-
-
-
-
-func _update_bio_fragments_label() -> void:
-	canvas_layer.equipment_window.bio_fragments_label.text = "Bio Fragments: " + str(inventory.bio_fragments)
 
 
 
